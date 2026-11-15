@@ -10,7 +10,7 @@ Guía estilo Michelin para puntuar los lugares donde vamos. Es una página está
 - **Puntaje general** = promedio simple de los 4 ejes, con 1 decimal (ej: 4,3).
 - El ranking se ordena por general. Desempate: comida, y después alfabético.
 - Pestañas: **Todos**, **🍽️ Comer** (almuerzo y cena) y **☕ Cafecitos** (desayuno y merienda). Cada pestaña tiene su propio ranking: el puesto se calcula dentro de la categoría.
-- Se puede buscar por nombre, cocina o barrio, y reordenar por cualquier eje (chips).
+- Se puede reordenar por cualquier eje (chips). No hay buscador (se quitó a propósito: con pocos lugares no hace falta).
 - Cada lugar tiene un botón a Google Maps, armado automáticamente con nombre + barrio. No hace falta cargar links.
 - La guía no aclara quién puntúa.
 
@@ -54,6 +54,7 @@ Campos:
 - v0.2: optimizada para celular, 5 lugares reales.
 - v0.3: pestañas Comer / Cafecitos, filtros con chips, ícono por lugar, header nuevo, se quitó Instagram.
 - v0.4: layout compacto para celular (puesto sobre el ícono, ejes 2×2). Publicada en GitHub Pages.
+- v0.5: se quitó el buscador.
 
 ## Ideas pendientes
 - Fotos propias por lugar.

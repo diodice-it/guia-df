@@ -31,10 +31,6 @@
   .tab.on { background: var(--rojo); border-color: var(--rojo); color: #fff; position: relative; }
   .tab.on small { color: rgba(255,255,255,.85); }
   .controles { margin: 2px 0 14px; font-family: system-ui, sans-serif; }
-  .buscador { position: relative; }
-  .buscador svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; stroke: var(--gris); fill: none; stroke-width: 2; stroke-linecap: round; pointer-events: none; }
-  .buscador input { width: 100%; min-height: 48px; padding: 0 14px 0 42px; border: 1px solid var(--linea); background: #fff; font: inherit; font-size: 16px; border-radius: 24px; appearance: none; -webkit-appearance: none; }
-  .buscador input:focus { outline: 2px solid var(--rojo); outline-offset: 1px; border-color: transparent; }
   .orden { display: flex; align-items: center; gap: 6px; margin-top: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
   .orden::-webkit-scrollbar { display: none; }
   .orden span { flex: none; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gris); }
@@ -74,7 +70,6 @@
     .tab { min-height: 46px; }
     .tab small { display: none; }
     .nombre { font-size: 1.2rem; }
-    .buscador input { min-height: 44px; }
   }
   @media (min-width: 640px) {
     .ejes { grid-template-columns: repeat(4, minmax(0, 1fr)); }
@@ -99,10 +94,6 @@
   </div>
 
   <div class="controles">
-    <label class="buscador">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
-      <input id="buscar" type="search" placeholder="Buscar lugar, cocina o barrio" aria-label="Buscar">
-    </label>
     <div class="orden" id="orden" role="group" aria-label="Ordenar por">
       <span title="Ordenar por">⇅</span>
       <button class="chip on" data-o="general">General</button>
@@ -138,18 +129,16 @@ let momento = "todos";
 let orden = "general";
 
 function render() {
-  const q = document.getElementById("buscar").value.trim().toLowerCase();
   const clave = l => orden === "general" ? promedio(l) : l[orden];
 
   document.getElementById("titulo").textContent = "Ranking · " + TITULOS[momento];
 
-  // el puesto se calcula dentro de la categoría, antes de buscar
+  // el puesto se calcula dentro de la categoría
   const lista = LUGARES
     .filter(l => momento === "todos" || l.momento === momento)
     .map(l => ({ ...l, prom: promedio(l) }))
     .sort((a, b) => clave(b) - clave(a) || b.comida - a.comida || a.nombre.localeCompare(b.nombre))
-    .map((l, i) => ({ ...l, puesto: i + 1 }))
-    .filter(l => (l.nombre + " " + l.cocina + " " + l.barrio).toLowerCase().includes(q));
+    .map((l, i) => ({ ...l, puesto: i + 1 }));
 
   document.getElementById("lista").innerHTML = lista.length ? lista.map(l => `
     <article class="lugar">
@@ -183,7 +172,6 @@ document.getElementById("tabs").addEventListener("click", e => {
   });
   render();
 });
-document.getElementById("buscar").addEventListener("input", render);
 document.getElementById("orden").addEventListener("click", e => {
   const b = e.target.closest(".chip");
   if (!b) return;
