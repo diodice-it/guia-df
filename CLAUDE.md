@@ -15,6 +15,9 @@ Página estática (HTML/CSS/JS sin build) que puntúa lugares donde fue Dario co
 - Los lugares viven solo en `datos.js` (array `LUGARES`). Puntajes enteros de 1 a 5; general = promedio simple con 1 decimal.
 - Campos: `nombre, icono, cocina, barrio, ambiente, servicio, comida, precio, momento ("comer" | "cafe")`.
 - Los puntajes los da Dario. Nunca inventarlos. Barrio/cocina se pueden buscar en la web, pero confirmar con Dario si hay sucursales o fuentes que no coinciden.
+- El eje `precio` se muestra como "Precio/valor" (5 = conviene mucho).
+- Si se cambian `index.html`, `datos.js` o los íconos, subir `VERSION` en `sw.js` solo si cambia la lista de archivos cacheados (el service worker ya es "primero red").
+- Los íconos PNG se generan con Chrome headless a partir de un HTML con `--headless=new --screenshot` (no hay ImageMagick ni rsvg).
 - El link de Google Maps se arma solo con nombre + barrio. No se usa Instagram (se quitó a propósito).
 
 ## Publicación

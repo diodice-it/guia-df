@@ -3,66 +3,103 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#bd1e2d">
 <title>Guía DF</title>
+<meta name="description" content="Ranking de los lugares donde fuimos, puntuados en ambiente, servicio, comida y precio.">
+<meta name="theme-color" content="#bd1e2d">
+
+<!-- Vista previa al compartir (WhatsApp, etc.) -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:title" content="Guía DF">
+<meta property="og:description" content="Ranking de los lugares donde fuimos, puntuados en ambiente, servicio, comida y precio.">
+<meta property="og:url" content="https://diodice-it.github.io/guia-df/">
+<meta property="og:image" content="https://diodice-it.github.io/guia-df/icons/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Íconos y app instalable -->
+<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Guía DF">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
     --rojo: #bd1e2d;
     --rojo-osc: #8f1722;
     --tinta: #1c1c1c;
-    --gris: #6b6b6b;
+    --gris: #5c5c5c;
     --linea: #e4dfd8;
     --papel: #fdfbf7;
+    --serif: "Playfair Display", Georgia, "Times New Roman", serif;
+    --sans: system-ui, -apple-system, "Segoe UI", sans-serif;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--papel); color: var(--tinta); font-family: Georgia, "Times New Roman", serif; line-height: 1.4; }
-  header { background: var(--rojo); color: #fff; text-align: center; padding: 48px 16px 40px; border-bottom: 6px solid var(--rojo-osc); }
+  body { background: var(--papel); color: var(--tinta); font-family: var(--serif); line-height: 1.4; }
+  header { background: var(--rojo); color: #fff; text-align: center; padding: calc(48px + env(safe-area-inset-top)) 16px 40px; border-bottom: 6px solid var(--rojo-osc); }
   header .marco { display: inline-block; border: 2px solid #fff; outline: 1px solid rgba(255,255,255,.55); outline-offset: 4px; padding: 14px 36px 18px; }
   header .adorno { font-size: .8rem; letter-spacing: .5em; margin-right: -.5em; opacity: .9; }
-  header h1 { font-size: clamp(2.6rem, 11vw, 4rem); font-weight: normal; letter-spacing: .04em; line-height: 1.1; margin-top: 4px; }
-  main { max-width: 820px; margin: 0 auto; padding: 16px 16px 64px; }
-  .aviso { background: #fff4d6; border: 1px solid #e8d08a; padding: 8px 12px; font-size: .85rem; margin-bottom: 24px; font-family: system-ui, sans-serif; }
-  .tabs { position: sticky; top: 0; z-index: 10; background: var(--papel); display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; padding: 10px 0; font-family: system-ui, sans-serif; }
+  header h1 { font-size: clamp(2.6rem, 11vw, 4rem); font-weight: 400; letter-spacing: .04em; line-height: 1.1; margin-top: 4px; }
+  main { max-width: 820px; margin: 0 auto; padding: 16px max(16px, env(safe-area-inset-right)) max(64px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); }
+  .aviso { background: #fff4d6; border: 1px solid #e8d08a; padding: 8px 12px; font-size: .85rem; margin-bottom: 12px; font-family: var(--sans); border-radius: 6px; }
+
+  .tabs { position: sticky; top: 0; z-index: 10; background: var(--papel); display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; padding: 10px 0; font-family: var(--sans); }
   .tab { appearance: none; background: #fff; color: var(--tinta); border: 1px solid var(--linea); margin-left: -1px; min-height: 56px; padding: 6px 4px; font: inherit; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
   .tab:first-child { border-radius: 8px 0 0 8px; margin-left: 0; }
   .tab:last-child { border-radius: 0 8px 8px 0; }
   .tab b { font-size: .95rem; font-weight: 600; }
   .tab small { font-size: .68rem; color: var(--gris); }
   .tab.on { background: var(--rojo); border-color: var(--rojo); color: #fff; position: relative; }
-  .tab.on small { color: rgba(255,255,255,.85); }
-  .controles { margin: 2px 0 14px; font-family: system-ui, sans-serif; }
-  .orden { display: flex; align-items: center; gap: 6px; margin-top: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+  .tab.on small { color: rgba(255,255,255,.9); }
+
+  .controles { margin: 2px 0 14px; font-family: var(--sans); }
+  .orden { display: flex; align-items: center; gap: 6px; margin-top: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px; }
   .orden::-webkit-scrollbar { display: none; }
-  .orden span { flex: none; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gris); }
+  .orden > span { flex: none; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gris); }
   .chip { flex: none; appearance: none; background: transparent; border: 1px solid var(--linea); color: var(--tinta); font: inherit; font-size: .85rem; min-height: 36px; padding: 0 12px; border-radius: 20px; cursor: pointer; }
   .chip.on { border-color: var(--rojo); color: var(--rojo); background: #fbeeee; font-weight: 600; }
-  .etiqueta { display: inline-block; font-family: system-ui, sans-serif; font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--gris); border: 1px solid var(--linea); border-radius: 20px; padding: 1px 8px; margin-left: 6px; vertical-align: middle; }
+  .tab:focus-visible, .chip:focus-visible, .links a:focus-visible { outline: 3px solid #1c1c1c; outline-offset: 2px; }
+
+  .etiqueta { display: inline-block; font-family: var(--sans); font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--gris); border: 1px solid var(--linea); border-radius: 20px; padding: 1px 8px; margin-left: 6px; vertical-align: middle; }
   a, button { -webkit-tap-highlight-color: transparent; }
-  h2.seccion { font-weight: normal; text-transform: uppercase; letter-spacing: .25em; font-size: .8rem; color: var(--rojo); border-bottom: 1px solid var(--linea); padding-bottom: 8px; margin-bottom: 8px; }
+  h2.seccion { font-weight: 400; text-transform: uppercase; letter-spacing: .25em; font-size: .8rem; color: var(--rojo); border-bottom: 1px solid var(--linea); padding-bottom: 8px; margin-bottom: 8px; }
+
   .lugar { padding: 16px 0; border-bottom: 1px solid var(--linea); }
+  .lugar.top { background: #fff; border: 1px solid #ecd0d0; border-top: 3px solid var(--rojo); border-radius: 8px; padding: 14px 12px 16px; margin: 10px -12px 6px; box-shadow: 0 2px 10px rgba(189,30,45,.08); }
   .cabecera { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; }
-  .cabecera .meta { margin-bottom: 0; }
   .titulo { display: flex; gap: 12px; align-items: center; min-width: 0; }
   .icono { position: relative; flex: none; width: 52px; height: 52px; display: grid; place-items: center; font-size: 1.7rem; background: #fbeeee; border: 1px solid #f1d4d4; border-radius: 12px; }
-  .puesto { position: absolute; top: -8px; left: -8px; min-width: 24px; height: 24px; padding: 0 6px; display: grid; place-items: center; background: var(--rojo); color: #fff; border: 2px solid var(--papel); border-radius: 12px; font: 600 .8rem system-ui, sans-serif; line-height: 1; }
+  .puesto { position: absolute; top: -8px; left: -8px; min-width: 24px; height: 24px; padding: 0 6px; display: grid; place-items: center; background: var(--rojo); color: #fff; border: 2px solid var(--papel); border-radius: 12px; font: 600 .8rem var(--sans); line-height: 1; white-space: nowrap; }
+  .lugar.top .puesto { border-color: #fff; }
   .nombre { font-size: 1.4rem; line-height: 1.15; }
-  .meta { color: var(--gris); font-size: .9rem; font-style: italic; margin: 2px 0 10px; }
-  .ejes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 18px; font-family: system-ui, sans-serif; font-size: .85rem; }
+  .meta { color: var(--gris); font-size: .9rem; font-style: italic; }
+  .sellos { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
+  .sello { font-family: var(--sans); font-size: .68rem; font-weight: 600; letter-spacing: .04em; color: var(--rojo); background: #fbeeee; border: 1px solid #f1d4d4; border-radius: 20px; padding: 2px 8px; white-space: nowrap; }
+
+  .ejes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 18px; font-family: var(--sans); font-size: .85rem; }
   .eje { display: flex; flex-direction: column; gap: 1px; }
   .eje > span:first-child { color: var(--gris); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }
   .estrellas { color: var(--rojo); letter-spacing: 2px; white-space: nowrap; font-size: 1.05rem; line-height: 1.1; }
   .estrellas .off { color: #d9d3ca; }
-  .links { margin-top: 12px; display: flex; gap: 8px; font-family: system-ui, sans-serif; }
+  .links { margin-top: 12px; display: flex; gap: 8px; font-family: var(--sans); }
   .links a { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 40px; font-size: .9rem; text-decoration: none; color: var(--rojo); border: 1px solid var(--rojo); padding: 0 10px; border-radius: 6px; }
   .links a:active { background: var(--rojo); color: #fff; }
   .general { flex: none; text-align: center; border: 2px solid var(--rojo); min-width: 64px; padding: 6px; border-radius: 4px; }
-  .general b { display: block; font-size: 1.9rem; font-weight: normal; color: var(--rojo); line-height: 1; }
-  .general span { font-size: .6rem; letter-spacing: .15em; text-transform: uppercase; color: var(--gris); font-family: system-ui, sans-serif; }
+  .general b { display: block; font-size: 1.9rem; font-weight: 400; color: var(--rojo); line-height: 1; }
+  .general span { font-size: .6rem; letter-spacing: .15em; text-transform: uppercase; color: var(--gris); font-family: var(--sans); }
   .vacio { text-align: center; color: var(--gris); padding: 40px 0; font-style: italic; }
-  footer { text-align: center; color: var(--gris); font-size: .8rem; padding: 24px 16px 40px; border-top: 1px solid var(--linea); font-style: italic; }
-  main { padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); padding-bottom: max(64px, env(safe-area-inset-bottom)); }
+  footer { text-align: center; color: var(--gris); font-size: .8rem; padding: 24px 16px calc(40px + env(safe-area-inset-bottom)); border-top: 1px solid var(--linea); font-style: italic; line-height: 1.6; }
+
   @media (max-width: 520px) {
-    header { padding: 16px 16px 14px; border-bottom-width: 4px; }
+    header { padding: calc(16px + env(safe-area-inset-top)) 16px 14px; border-bottom-width: 4px; }
     header .marco { padding: 5px 22px 8px; outline-offset: 3px; }
     header .adorno { font-size: .6rem; }
     header h1 { font-size: 2.1rem; margin-top: 0; }
@@ -87,99 +124,190 @@
 </header>
 
 <main>
-  <div class="tabs" id="tabs" role="tablist">
-    <button class="tab on" role="tab" data-m="todos"><b>Todos</b><small>Ranking general</small></button>
-    <button class="tab" role="tab" data-m="comer"><b>🍽️ Comer</b><small>Almuerzo y cena</small></button>
-    <button class="tab" role="tab" data-m="cafe"><b>☕ Cafecitos</b><small>Desayuno y merienda</small></button>
+  <div class="tabs" id="tabs" role="tablist" aria-label="Categoría">
+    <button class="tab on" role="tab" aria-selected="true" data-m="todos"><b>Todos</b><small>Ranking general</small></button>
+    <button class="tab" role="tab" aria-selected="false" data-m="comer"><b>🍽️ Comer</b><small>Almuerzo y cena</small></button>
+    <button class="tab" role="tab" aria-selected="false" data-m="cafe"><b>☕ Cafecitos</b><small>Desayuno y merienda</small></button>
   </div>
 
   <div class="controles">
     <div class="orden" id="orden" role="group" aria-label="Ordenar por">
-      <span title="Ordenar por">⇅</span>
-      <button class="chip on" data-o="general">General</button>
-      <button class="chip" data-o="ambiente">Ambiente</button>
-      <button class="chip" data-o="servicio">Servicio</button>
-      <button class="chip" data-o="comida">Comida</button>
-      <button class="chip" data-o="precio">Precio</button>
+      <span aria-hidden="true" title="Ordenar por">⇅</span>
+      <button class="chip on" data-o="general" aria-pressed="true">General</button>
+      <button class="chip" data-o="ambiente" aria-pressed="false">Ambiente</button>
+      <button class="chip" data-o="servicio" aria-pressed="false">Servicio</button>
+      <button class="chip" data-o="comida" aria-pressed="false">Comida</button>
+      <button class="chip" data-o="precio" aria-pressed="false">Precio/valor</button>
     </div>
   </div>
 
-  <h2 class="seccion" id="titulo">Ranking</h2>
+  <div id="avisos"></div>
+  <h2 class="seccion" id="titulo" aria-live="polite">Ranking</h2>
   <div id="lista"></div>
 </main>
 
-<footer>Puntaje de 1 a 5 estrellas por eje. El general es el promedio de los 4 ejes.</footer>
+<footer>
+  Puntaje de 1 a 5 estrellas por eje. En <b>Precio/valor</b>, 5 estrellas = conviene mucho.<br>
+  El general es el promedio de los 4 ejes. «=» indica empate de puesto.<br>
+  💎 Joya: general de 4,5 o más · 🏅 Buena relación: comida y precio/valor de 4 o más.
+</footer>
 
 <script src="datos.js"></script>
 <script>
+/* ===== Configuración ===== */
 const EJES = ["ambiente", "servicio", "comida", "precio"];
+const NOMBRES_EJE = { ambiente: "Ambiente", servicio: "Servicio", comida: "Comida", precio: "Precio/valor" };
+const MOMENTOS = ["comer", "cafe"];
+const JOYA_DESDE = 4.5;                                   // general mínimo para "Joya"
+const buenaRelacion = l => l.comida >= 4 && l.precio >= 4; // regla de "Buena relación"
+
+const TITULOS = { todos: "Todos los lugares", comer: "Para comer · almuerzo y cena", cafe: "Cafecitos · desayuno y merienda" };
+const HASH_A_TAB = { "#todos": "todos", "#comer": "comer", "#cafecitos": "cafe" };
+const TAB_A_HASH = { todos: "#todos", comer: "#comer", cafe: "#cafecitos" };
+
+/* ===== Utilidades ===== */
 const promedio = l => EJES.reduce((s, e) => s + l[e], 0) / EJES.length;
 const fmt = n => n.toFixed(1).replace(".", ",");
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const guardar = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
+const leer = k => { try { return localStorage.getItem(k); } catch (e) { return null; } };
 
 function estrellas(n) {
-  return "★".repeat(n) + '<span class="off">' + "★".repeat(5 - n) + "</span>";
+  return `<span class="estrellas" role="img" aria-label="${n} de 5">` +
+    "★".repeat(n) + '<span class="off">' + "★".repeat(5 - n) + "</span></span>";
 }
 function linkMaps(l) {
   return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(l.nombre + " " + l.barrio + " Buenos Aires");
 }
 
-const TITULOS = { todos: "Todos los lugares", comer: "Para comer · almuerzo y cena", cafe: "Cafecitos · desayuno y merienda" };
+/* ===== Validación de datos.js ===== */
+function validar(l) {
+  const errores = [];
+  if (!l || typeof l.nombre !== "string" || !l.nombre.trim()) errores.push("falta el nombre");
+  if (!l || typeof l.barrio !== "string" || !l.barrio.trim()) errores.push("falta el barrio");
+  if (!l || !MOMENTOS.includes(l.momento)) errores.push('momento debe ser "comer" o "cafe"');
+  EJES.forEach(e => {
+    if (!l || !Number.isInteger(l[e]) || l[e] < 1 || l[e] > 5) errores.push(`${e} debe ser un entero de 1 a 5`);
+  });
+  return errores;
+}
+const invalidos = [];
+const LUGARES_OK = LUGARES.filter((l, i) => {
+  const errores = validar(l);
+  if (errores.length) {
+    invalidos.push(l && l.nombre ? l.nombre : "lugar #" + (i + 1));
+    console.error(`[Guía DF] datos.js, lugar "${l && l.nombre ? l.nombre : "#" + (i + 1)}": ${errores.join("; ")}`);
+  }
+  return !errores.length;
+});
+if (invalidos.length) {
+  document.getElementById("avisos").innerHTML =
+    `<div class="aviso">⚠️ ${invalidos.length} lugar(es) con datos inválidos no se muestran: ${esc(invalidos.join(", "))}. Revisar datos.js.</div>`;
+}
+
+/* ===== Estado ===== */
 let momento = "todos";
 let orden = "general";
 
+function setTab(m) {
+  momento = m;
+  document.querySelectorAll(".tab").forEach(t => {
+    const on = t.dataset.m === m;
+    t.classList.toggle("on", on);
+    t.setAttribute("aria-selected", on);
+  });
+  guardar("df.tab", m);
+  if (location.hash !== TAB_A_HASH[m]) history.replaceState(null, "", TAB_A_HASH[m]);
+  render();
+}
+function setOrden(o) {
+  orden = o;
+  document.querySelectorAll(".chip").forEach(c => {
+    const on = c.dataset.o === o;
+    c.classList.toggle("on", on);
+    c.setAttribute("aria-pressed", on);
+  });
+  guardar("df.orden", o);
+  render();
+}
+
+/* ===== Render ===== */
 function render() {
   const clave = l => orden === "general" ? promedio(l) : l[orden];
 
   document.getElementById("titulo").textContent = "Ranking · " + TITULOS[momento];
 
-  // el puesto se calcula dentro de la categoría
-  const lista = LUGARES
+  const lista = LUGARES_OK
     .filter(l => momento === "todos" || l.momento === momento)
     .map(l => ({ ...l, prom: promedio(l) }))
-    .sort((a, b) => clave(b) - clave(a) || b.comida - a.comida || a.nombre.localeCompare(b.nombre))
-    .map((l, i) => ({ ...l, puesto: i + 1 }));
+    .sort((a, b) => clave(b) - clave(a) || b.comida - a.comida || a.nombre.localeCompare(b.nombre));
 
-  document.getElementById("lista").innerHTML = lista.length ? lista.map(l => `
-    <article class="lugar">
-      <div>
-        <div class="cabecera">
-          <div class="titulo">
-            <div class="icono">${l.icono || (l.momento === "cafe" ? "☕" : "🍽️")}<span class="puesto" aria-label="Puesto ${l.puesto}">${l.puesto}</span></div>
-            <div>
-              <div class="nombre">${esc(l.nombre)}${momento === "todos" ? `<span class="etiqueta">${l.momento === "cafe" ? "☕ Café" : "🍽️ Comer"}</span>` : ""}</div>
-              <div class="meta">${esc(l.cocina)} · ${esc(l.barrio)}</div>
-            </div>
+  // puesto dentro de la categoría; los empates comparten puesto
+  lista.forEach((l, i) => {
+    const prev = lista[i - 1];
+    if (prev && clave(prev) === clave(l)) { l.puesto = prev.puesto; l.empate = prev.empate = true; }
+    else l.puesto = i + 1;
+  });
+
+  document.getElementById("lista").innerHTML = lista.length ? lista.map(l => {
+    const sellos = [
+      l.prom >= JOYA_DESDE ? "💎 Joya" : "",
+      buenaRelacion(l) ? "🏅 Buena relación" : ""
+    ].filter(Boolean);
+    const top = l.puesto === 1 && lista.length > 1;
+    const puestoTxt = l.puesto + (l.empate ? "=" : "");
+    return `
+    <article class="lugar${top ? " top" : ""}">
+      <div class="cabecera">
+        <div class="titulo">
+          <div class="icono">${l.icono || (l.momento === "cafe" ? "☕" : "🍽️")}<span class="puesto" role="img" aria-label="Puesto ${l.puesto}${l.empate ? ", empatado" : ""}">${puestoTxt}</span></div>
+          <div>
+            <div class="nombre">${esc(l.nombre)}${momento === "todos" ? `<span class="etiqueta">${l.momento === "cafe" ? "☕ Café" : "🍽️ Comer"}</span>` : ""}</div>
+            <div class="meta">${esc(l.cocina || "")}${l.cocina ? " · " : ""}${esc(l.barrio)}</div>
+            ${sellos.length ? `<div class="sellos">${sellos.map(s => `<span class="sello">${s}</span>`).join("")}</div>` : ""}
           </div>
-          <div class="general"><b>${fmt(l.prom)}</b><span>General</span></div>
         </div>
-        <div class="ejes">
-          ${EJES.map(e => `<div class="eje"><span>${e[0].toUpperCase() + e.slice(1)}</span><span class="estrellas">${estrellas(l[e])}</span></div>`).join("")}
-        </div>
-        <div class="links">
-          <a href="${linkMaps(l)}" target="_blank" rel="noopener">📍 Google Maps</a>        </div>
+        <div class="general"><b>${fmt(l.prom)}</b><span>General</span></div>
       </div>
-    </article>`).join("") : '<div class="vacio">No hay lugares que coincidan.</div>';
+      <div class="ejes">
+        ${EJES.map(e => `<div class="eje"><span>${NOMBRES_EJE[e]}</span>${estrellas(l[e])}</div>`).join("")}
+      </div>
+      <div class="links">
+        <a href="${linkMaps(l)}" target="_blank" rel="noopener">📍 Google Maps</a>
+      </div>
+    </article>`;
+  }).join("") : '<div class="vacio">Todavía no hay lugares acá.</div>';
 }
 
+/* ===== Eventos ===== */
 document.getElementById("tabs").addEventListener("click", e => {
   const b = e.target.closest(".tab");
-  if (!b) return;
-  momento = b.dataset.m;
-  document.querySelectorAll(".tab").forEach(t => {
-    t.classList.toggle("on", t === b);
-    t.setAttribute("aria-selected", t === b);
-  });
-  render();
+  if (b) setTab(b.dataset.m);
 });
 document.getElementById("orden").addEventListener("click", e => {
   const b = e.target.closest(".chip");
-  if (!b) return;
-  orden = b.dataset.o;
-  document.querySelectorAll(".chip").forEach(c => c.classList.toggle("on", c === b));
-  render();
+  if (b) setOrden(b.dataset.o);
 });
-render();
+window.addEventListener("hashchange", () => {
+  const m = HASH_A_TAB[location.hash];
+  if (m && m !== momento) setTab(m);
+});
+
+/* ===== Arranque: el link manda; si no, lo último que se usó ===== */
+const tabInicial = HASH_A_TAB[location.hash] || (TITULOS[leer("df.tab")] ? leer("df.tab") : "todos");
+const ordenInicial = EJES.concat("general").includes(leer("df.orden")) ? leer("df.orden") : "general";
+orden = ordenInicial;
+document.querySelectorAll(".chip").forEach(c => {
+  const on = c.dataset.o === orden;
+  c.classList.toggle("on", on);
+  c.setAttribute("aria-pressed", on);
+});
+setTab(tabInicial);
+
+/* ===== App instalable / offline ===== */
+if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+  navigator.serviceWorker.register("sw.js").catch(() => {});
+}
 </script>
 </body>
 </html>
