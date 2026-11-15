@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#bd1e2d">
+<title>Guía DF</title>
+<style>
+  :root {
+    --rojo: #bd1e2d;
+    --rojo-osc: #8f1722;
+    --tinta: #1c1c1c;
+    --gris: #6b6b6b;
+    --linea: #e4dfd8;
+    --papel: #fdfbf7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--papel); color: var(--tinta); font-family: Georgia, "Times New Roman", serif; line-height: 1.4; }
+  header { background: var(--rojo); color: #fff; text-align: center; padding: 48px 16px 40px; border-bottom: 6px solid var(--rojo-osc); }
+  header .marco { display: inline-block; border: 2px solid #fff; outline: 1px solid rgba(255,255,255,.55); outline-offset: 4px; padding: 14px 36px 18px; }
+  header .adorno { font-size: .8rem; letter-spacing: .5em; margin-right: -.5em; opacity: .9; }
+  header h1 { font-size: clamp(2.6rem, 11vw, 4rem); font-weight: normal; letter-spacing: .04em; line-height: 1.1; margin-top: 4px; }
+  main { max-width: 820px; margin: 0 auto; padding: 16px 16px 64px; }
+  .aviso { background: #fff4d6; border: 1px solid #e8d08a; padding: 8px 12px; font-size: .85rem; margin-bottom: 24px; font-family: system-ui, sans-serif; }
+  .tabs { position: sticky; top: 0; z-index: 10; background: var(--papel); display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; padding: 10px 0; font-family: system-ui, sans-serif; }
+  .tab { appearance: none; background: #fff; color: var(--tinta); border: 1px solid var(--linea); margin-left: -1px; min-height: 56px; padding: 6px 4px; font: inherit; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
+  .tab:first-child { border-radius: 8px 0 0 8px; margin-left: 0; }
+  .tab:last-child { border-radius: 0 8px 8px 0; }
+  .tab b { font-size: .95rem; font-weight: 600; }
+  .tab small { font-size: .68rem; color: var(--gris); }
+  .tab.on { background: var(--rojo); border-color: var(--rojo); color: #fff; position: relative; }
+  .tab.on small { color: rgba(255,255,255,.85); }
+  .controles { margin: 2px 0 14px; font-family: system-ui, sans-serif; }
+  .buscador { position: relative; }
+  .buscador svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; stroke: var(--gris); fill: none; stroke-width: 2; stroke-linecap: round; pointer-events: none; }
+  .buscador input { width: 100%; min-height: 48px; padding: 0 14px 0 42px; border: 1px solid var(--linea); background: #fff; font: inherit; font-size: 16px; border-radius: 24px; appearance: none; -webkit-appearance: none; }
+  .buscador input:focus { outline: 2px solid var(--rojo); outline-offset: 1px; border-color: transparent; }
+  .orden { display: flex; align-items: center; gap: 6px; margin-top: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+  .orden::-webkit-scrollbar { display: none; }
+  .orden span { flex: none; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gris); }
+  .chip { flex: none; appearance: none; background: transparent; border: 1px solid var(--linea); color: var(--tinta); font: inherit; font-size: .85rem; min-height: 36px; padding: 0 12px; border-radius: 20px; cursor: pointer; }
+  .chip.on { border-color: var(--rojo); color: var(--rojo); background: #fbeeee; font-weight: 600; }
+  .etiqueta { display: inline-block; font-family: system-ui, sans-serif; font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--gris); border: 1px solid var(--linea); border-radius: 20px; padding: 1px 8px; margin-left: 6px; vertical-align: middle; }
+  a, button { -webkit-tap-highlight-color: transparent; }
+  h2.seccion { font-weight: normal; text-transform: uppercase; letter-spacing: .25em; font-size: .8rem; color: var(--rojo); border-bottom: 1px solid var(--linea); padding-bottom: 8px; margin-bottom: 8px; }
+  .lugar { padding: 16px 0; border-bottom: 1px solid var(--linea); }
+  .cabecera { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .cabecera .meta { margin-bottom: 0; }
+  .titulo { display: flex; gap: 12px; align-items: center; min-width: 0; }
+  .icono { position: relative; flex: none; width: 52px; height: 52px; display: grid; place-items: center; font-size: 1.7rem; background: #fbeeee; border: 1px solid #f1d4d4; border-radius: 12px; }
+  .puesto { position: absolute; top: -8px; left: -8px; min-width: 24px; height: 24px; padding: 0 6px; display: grid; place-items: center; background: var(--rojo); color: #fff; border: 2px solid var(--papel); border-radius: 12px; font: 600 .8rem system-ui, sans-serif; line-height: 1; }
+  .nombre { font-size: 1.4rem; line-height: 1.15; }
+  .meta { color: var(--gris); font-size: .9rem; font-style: italic; margin: 2px 0 10px; }
+  .ejes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 18px; font-family: system-ui, sans-serif; font-size: .85rem; }
+  .eje { display: flex; flex-direction: column; gap: 1px; }
+  .eje > span:first-child { color: var(--gris); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }
+  .estrellas { color: var(--rojo); letter-spacing: 2px; white-space: nowrap; font-size: 1.05rem; line-height: 1.1; }
+  .estrellas .off { color: #d9d3ca; }
+  .links { margin-top: 12px; display: flex; gap: 8px; font-family: system-ui, sans-serif; }
+  .links a { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 40px; font-size: .9rem; text-decoration: none; color: var(--rojo); border: 1px solid var(--rojo); padding: 0 10px; border-radius: 6px; }
+  .links a:active { background: var(--rojo); color: #fff; }
+  .general { flex: none; text-align: center; border: 2px solid var(--rojo); min-width: 64px; padding: 6px; border-radius: 4px; }
+  .general b { display: block; font-size: 1.9rem; font-weight: normal; color: var(--rojo); line-height: 1; }
+  .general span { font-size: .6rem; letter-spacing: .15em; text-transform: uppercase; color: var(--gris); font-family: system-ui, sans-serif; }
+  .vacio { text-align: center; color: var(--gris); padding: 40px 0; font-style: italic; }
+  footer { text-align: center; color: var(--gris); font-size: .8rem; padding: 24px 16px 40px; border-top: 1px solid var(--linea); font-style: italic; }
+  main { padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); padding-bottom: max(64px, env(safe-area-inset-bottom)); }
+  @media (max-width: 520px) {
+    header { padding: 16px 16px 14px; border-bottom-width: 4px; }
+    header .marco { padding: 5px 22px 8px; outline-offset: 3px; }
+    header .adorno { font-size: .6rem; }
+    header h1 { font-size: 2.1rem; margin-top: 0; }
+    main { padding-top: 0; }
+    .tab { min-height: 46px; }
+    .tab small { display: none; }
+    .nombre { font-size: 1.2rem; }
+    .buscador input { min-height: 44px; }
+  }
+  @media (min-width: 640px) {
+    .ejes { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .links a { flex: 0 0 auto; padding: 0 18px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="marco">
+    <div class="adorno">★ ★ ★</div>
+    <h1>Guía DF</h1>
+  </div>
+</header>
+
+<main>
+  <div class="tabs" id="tabs" role="tablist">
+    <button class="tab on" role="tab" data-m="todos"><b>Todos</b><small>Ranking general</small></button>
+    <button class="tab" role="tab" data-m="comer"><b>🍽️ Comer</b><small>Almuerzo y cena</small></button>
+    <button class="tab" role="tab" data-m="cafe"><b>☕ Cafecitos</b><small>Desayuno y merienda</small></button>
+  </div>
+
+  <div class="controles">
+    <label class="buscador">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+      <input id="buscar" type="search" placeholder="Buscar lugar, cocina o barrio" aria-label="Buscar">
+    </label>
+    <div class="orden" id="orden" role="group" aria-label="Ordenar por">
+      <span title="Ordenar por">⇅</span>
+      <button class="chip on" data-o="general">General</button>
+      <button class="chip" data-o="ambiente">Ambiente</button>
+      <button class="chip" data-o="servicio">Servicio</button>
+      <button class="chip" data-o="comida">Comida</button>
+      <button class="chip" data-o="precio">Precio</button>
+    </div>
+  </div>
+
+  <h2 class="seccion" id="titulo">Ranking</h2>
+  <div id="lista"></div>
+</main>
+
+<footer>Puntaje de 1 a 5 estrellas por eje. El general es el promedio de los 4 ejes.</footer>
+
+<script src="datos.js"></script>
+<script>
+const EJES = ["ambiente", "servicio", "comida", "precio"];
+const promedio = l => EJES.reduce((s, e) => s + l[e], 0) / EJES.length;
+const fmt = n => n.toFixed(1).replace(".", ",");
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+function estrellas(n) {
+  return "★".repeat(n) + '<span class="off">' + "★".repeat(5 - n) + "</span>";
+}
+function linkMaps(l) {
+  return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(l.nombre + " " + l.barrio + " Buenos Aires");
+}
+
+const TITULOS = { todos: "Todos los lugares", comer: "Para comer · almuerzo y cena", cafe: "Cafecitos · desayuno y merienda" };
+let momento = "todos";
+let orden = "general";
+
+function render() {
+  const q = document.getElementById("buscar").value.trim().toLowerCase();
+  const clave = l => orden === "general" ? promedio(l) : l[orden];
+
+  document.getElementById("titulo").textContent = "Ranking · " + TITULOS[momento];
+
+  // el puesto se calcula dentro de la categoría, antes de buscar
+  const lista = LUGARES
+    .filter(l => momento === "todos" || l.momento === momento)
+    .map(l => ({ ...l, prom: promedio(l) }))
+    .sort((a, b) => clave(b) - clave(a) || b.comida - a.comida || a.nombre.localeCompare(b.nombre))
+    .map((l, i) => ({ ...l, puesto: i + 1 }))
+    .filter(l => (l.nombre + " " + l.cocina + " " + l.barrio).toLowerCase().includes(q));
+
+  document.getElementById("lista").innerHTML = lista.length ? lista.map(l => `
+    <article class="lugar">
+      <div>
+        <div class="cabecera">
+          <div class="titulo">
+            <div class="icono">${l.icono || (l.momento === "cafe" ? "☕" : "🍽️")}<span class="puesto" aria-label="Puesto ${l.puesto}">${l.puesto}</span></div>
+            <div>
+              <div class="nombre">${esc(l.nombre)}${momento === "todos" ? `<span class="etiqueta">${l.momento === "cafe" ? "☕ Café" : "🍽️ Comer"}</span>` : ""}</div>
+              <div class="meta">${esc(l.cocina)} · ${esc(l.barrio)}</div>
+            </div>
+          </div>
+          <div class="general"><b>${fmt(l.prom)}</b><span>General</span></div>
+        </div>
+        <div class="ejes">
+          ${EJES.map(e => `<div class="eje"><span>${e[0].toUpperCase() + e.slice(1)}</span><span class="estrellas">${estrellas(l[e])}</span></div>`).join("")}
+        </div>
+        <div class="links">
+          <a href="${linkMaps(l)}" target="_blank" rel="noopener">📍 Google Maps</a>        </div>
+      </div>
+    </article>`).join("") : '<div class="vacio">No hay lugares que coincidan.</div>';
+}
+
+document.getElementById("tabs").addEventListener("click", e => {
+  const b = e.target.closest(".tab");
+  if (!b) return;
+  momento = b.dataset.m;
+  document.querySelectorAll(".tab").forEach(t => {
+    t.classList.toggle("on", t === b);
+    t.setAttribute("aria-selected", t === b);
+  });
+  render();
+});
+document.getElementById("buscar").addEventListener("input", render);
+document.getElementById("orden").addEventListener("click", e => {
+  const b = e.target.closest(".chip");
+  if (!b) return;
+  orden = b.dataset.o;
+  document.querySelectorAll(".chip").forEach(c => c.classList.toggle("on", c === b));
+  render();
+});
+render();
+</script>
+</body>
+</html>
