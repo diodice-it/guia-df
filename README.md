@@ -11,7 +11,7 @@ Guía estilo Michelin para puntuar los lugares donde vamos. Es una página está
 - El ranking se ordena por general. Desempate: comida, y después alfabético.
 - Pestañas: **Todos**, **🍽️ Comer** (almuerzo y cena) y **☕ Cafecitos** (desayuno y merienda). Cada pestaña tiene su propio ranking: el puesto se calcula dentro de la categoría.
 - Se puede reordenar por cualquier eje (chips). No hay buscador (se quitó a propósito: con pocos lugares no hace falta).
-- Cada lugar tiene un botón a Google Maps, armado automáticamente con nombre + barrio. No hace falta cargar links.
+- Cada lugar tiene un botón a Google Maps: por defecto se arma solo con nombre + barrio. Si el lugar tiene varias sucursales o la búsqueda no cae bien, se puede cargar el campo opcional `maps` con el link exacto de Google Maps (sin los parámetros `entry=` ni `g_ep=`). Hoy lo usa Azul Café.
 - **Precio/valor:** 5 estrellas = conviene mucho (precio justo para lo que ofrece). La clave interna sigue siendo `precio`.
 - **Empates:** comparten puesto y se marcan con "=" (ej: `2=`). El siguiente puesto salta (2=, 2=, 2=, 5).
 - **Distinciones:** el puesto 1 de cada lista se destaca con una tarjeta especial (si hay más de un lugar). Sellos automáticos: 💎 **Joya** (general ≥ 4,5) y 🏅 **Buena relación** (comida ≥ 4 y precio/valor ≥ 4). Los umbrales están al inicio del script en `index.html` (`JOYA_DESDE`, `buenaRelacion`).
@@ -61,7 +61,7 @@ Campos:
 
 ## Historial
 - v0.1: primera versión con datos de ejemplo.
-- v0.2: optimizada para celular, 5 lugares reales.
+- v0.2: optimizada para celular, 5 lugares reales (hoy son 7: se sumaron Gorrión y Azul Café, cafés en Belgrano).
 - v0.3: pestañas Comer / Cafecitos, filtros con chips, ícono por lugar, header nuevo, se quitó Instagram.
 - v0.4: layout compacto para celular (puesto sobre el ícono, ejes 2×2). Publicada en GitHub Pages.
 - v0.5: se quitó el buscador.

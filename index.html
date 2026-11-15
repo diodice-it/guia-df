@@ -177,6 +177,7 @@ function estrellas(n) {
     "★".repeat(n) + '<span class="off">' + "★".repeat(5 - n) + "</span></span>";
 }
 function linkMaps(l) {
+  if (typeof l.maps === "string" && l.maps.startsWith("https://www.google.com/maps/")) return l.maps;
   return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(l.nombre + " " + l.barrio + " Buenos Aires");
 }
 
